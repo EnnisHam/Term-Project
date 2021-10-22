@@ -1,13 +1,9 @@
-# Standard Library modules
+# Standard library modules
 from datetime import date
 
 # Third party libraries
 from flask import Flask
 from flask_restful import Resource, Api
-
-from googleapiclient.discovery import build
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 
 
 # globals
