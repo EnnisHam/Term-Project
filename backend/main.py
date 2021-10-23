@@ -1,3 +1,6 @@
+# user defined modules
+from sheets_api import SheetCredentials, Database
+
 # Standard library modules
 from datetime import date
 
@@ -13,7 +16,8 @@ api = Api(app)
 temp_data = {}
 
 
-class CheckIn(Resource): #TODO make the actual endpoint
+class CheckIn(Resource):
+    #TODO make the actual endpoint
     """Check in Resource class"""
     def get(self, employee_id):
         return temp_data[employee_id]

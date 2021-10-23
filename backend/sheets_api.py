@@ -60,3 +60,16 @@ class Database():
     def __init__(self, credentials: Credentials):
         """initializes the sheets api with credentials"""
         self._token = credentials
+        self._cache = {}
+
+    def write(self, values: List[str]):
+        # TODO
+        pass
+
+    def search(self, field: str):
+        # TODO
+        pass
+
+    @property
+    def cache(self):
+        return self._cache['values']
