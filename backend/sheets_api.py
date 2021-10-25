@@ -61,6 +61,7 @@ class Database():
         """initializes the sheets api with credentials"""
         self._token = credentials
         self._cache = {}
+        self._service = self.__start_service()
 
     def write(self, values: List[str]):
         # TODO
@@ -73,3 +74,10 @@ class Database():
     @property
     def cache(self):
         return self._cache['values']
+
+    @property
+    def service(self):
+        return self._service
+
+    def __start_service(self):
+        return build('sheets', 'v4', credentials=self._token)

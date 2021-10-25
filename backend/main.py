@@ -15,6 +15,7 @@ api = Api(app)
 
 temp_data = {}
 
+database = None
 
 class CheckIn(Resource):
     #TODO make the actual endpoint
@@ -25,9 +26,16 @@ class CheckIn(Resource):
     def put(self, employee_id):
         temp_data[employee_id] = date.today()
 
+    def post(self, employee_id, body):
+        pass
+
 
 # Add resources here
 api.add_resource(CheckIn, '/<string:employee_id>')
 
 if __name__ == '__main__':
+    scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    credentials = SheetCredentials('ID', scope, 'file_path')
+    database = Database(credentials)
+
     app.run(debug=True)
