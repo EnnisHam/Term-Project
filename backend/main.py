@@ -17,7 +17,7 @@ temp_data = {}
 
 database = None
 
-class CheckIn(Resource):
+class CheckInService(Resource):
     #TODO make the actual endpoint
     """Check in Resource class"""
     def get(self, employee_id):
@@ -34,7 +34,7 @@ class CheckIn(Resource):
 api.add_resource(CheckIn, '/<string:employee_id>')
 
 if __name__ == '__main__':
-    scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    scope = ['https://spreadsheets.google.com/feeds']
     credentials = SheetCredentials('ID', scope, 'file_path')
     database = Database(credentials)
 
