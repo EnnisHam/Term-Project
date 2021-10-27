@@ -5,7 +5,7 @@ from sheets_api import SheetCredentials, Database
 from datetime import date
 
 # Third party libraries
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 
@@ -17,18 +17,24 @@ temp_data = {}
 
 database = None
 
+
 class CheckInService(Resource):
     #TODO make the actual endpoint
     """Check in Resource class"""
     def get(self, employee_id):
         return temp_data[employee_id]
 
-    def put(self, employee_id):
-        temp_data[employee_id] = date.today()
+    def post(self):
+        json = request.get_json(force=True)
 
-    def post(self, employee_id, body):
-        pass
+        _id = json['id']
+        _name = json['name']
+        _date = date.tody()
 
+        data = [_id, _name, _date]
+
+        database.append(data)
+        return {'status': 'success', 'data': data}
 
 # Add resources here
 api.add_resource(CheckIn, '/<string:employee_id>')

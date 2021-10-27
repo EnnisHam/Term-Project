@@ -57,23 +57,30 @@ class SheetCredentials():
 
 
 class Database():
-    def __init__(self, credentials: Credentials):
+    def __init__(self, sheet_id: str, credentials: Credentials):
         """initializes the sheets api with credentials"""
         self._token = credentials
         self._cache = {}
+        self._id = sheet_id
         self._service = self.__start_service()
 
-    def write(self, values: List[str]):
-        # TODO
-        pass
+    def append(self, values: List[str]):
+        num = 0
+        req = _service.spreadsheets().values().append(spreadsheetId=self._id,
+                                                     body=values)
+        res = req.execute()
+        self._cache = response['updates']
 
     def search(self, field: str):
-        # TODO
-        pass
+        # TODO Filter values down to field parameter
+        req = _service.spreadsheets().values().get(spreadsheetId=self._id)
+        res = req.execute()
+        self._cache = res['values']
+        return res['values']
 
     @property
     def cache(self):
-        return self._cache['values']
+        return self._cache
 
     @property
     def service(self):
