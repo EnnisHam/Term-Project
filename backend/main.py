@@ -1,11 +1,11 @@
 # user defined modules
-from sheets_api import SheetCredentials, Database
+from sheets_api import Database
 
 # Standard library modules
 from datetime import date
 
 # Third party libraries
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 
@@ -17,25 +17,47 @@ temp_data = {}
 
 database = None
 
+
 class CheckIn(Resource):
-    #TODO make the actual endpoint
     """Check in Resource class"""
-    def get(self, employee_id):
-        return temp_data[employee_id]
+    def post(self):
+        json = request.get_json(force=True)
 
-    def put(self, employee_id):
-        temp_data[employee_id] = date.today()
+        _id = json['id']
+        _name = json['name']
+        _date = str(date.today())
 
-    def post(self, employee_id, body):
-        pass
+        data = [_id, _name, _date, 'IN']
+
+        database.append(data)
+        return {'status': 'success', 'data': data}
+
+
+class CheckOut(Resource):
+    """Check out Resource class"""
+    def post(self):
+        json = request.get_json(force=True)
+
+        _id = json['id']
+        _name = json['name']
+        _date = str(date.today())
+
+        data = [_id, _name, _date, 'OUT']
+
+        database.append(data)
+        return {'status': 'success', 'data': data}
 
 
 # Add resources here
-api.add_resource(CheckIn, '/<string:employee_id>')
+api.add_resource(CheckIn, '/in')
+api.add_resource(CheckOut, '/out')
 
 if __name__ == '__main__':
-    scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-    credentials = SheetCredentials('ID', scope, 'file_path')
-    database = Database(credentials)
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/spreadsheets',
+             'https://www.googleapis.com/auth/drive.file',
+             'https://www.googleapis.com/auth/drive']
+
+    database = Database('cs780 term project', 'token.json', scope)
 
     app.run(debug=True)
