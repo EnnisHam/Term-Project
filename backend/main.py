@@ -13,8 +13,6 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-temp_data = {}
-
 database = None
 
 
@@ -48,9 +46,20 @@ class CheckOut(Resource):
         return {'status': 'success', 'data': data}
 
 
+class Search(Resource):
+    """Search Resource class"""
+    def get(self, search_field: str):
+        data = database.search(search_field)
+
+        return {'data': data,
+                'length': len(data)}
+
+
 # Add resources here
 api.add_resource(CheckIn, '/in')
 api.add_resource(CheckOut, '/out')
+api.add_resource(Search, '/search/<string:search_field>')
+
 
 if __name__ == '__main__':
     scope = ['https://spreadsheets.google.com/feeds',
