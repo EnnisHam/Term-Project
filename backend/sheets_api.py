@@ -1,8 +1,8 @@
 # Standard library modules
-import json
-
-from typing import List
+from copy import deepcopy
+from datetime import date
 from os import path as file_path
+from typing import List
 
 # Third party library modules
 import gspread
@@ -25,15 +25,29 @@ class Database():
         return self._service.insert_row(values, 2)
 
     def read_all(self):
-        return self._service.get_all_values()
+        raw = self._service.get_all_values()
+        data = deepcopy(raw)
+
+        empty = ['', '', '', '']
+
+        while empty in data:
+            data.remove(empty)
+
+        return data
+
 
     def search(self, field: str):
-        # TODO Filter values down to field parameter
-        req = _service.spreadsheets().values().get(spreadsheetId=self._id)
-        res = req.execute()
-        self._cache = res['values']
-        return res['values']
+        raw = self.read_all()[1:]
+        data = None
 
+        if field.lower() == 'status':
+            checked_in = [row for row in raw if 'IN' in row]
+            checked_out = [row for row in raw if 'OUT' in row]
+            return checked_in + checked_out
+        else:
+            data = [row for row in raw if field in row]
+
+        return data
 
 
 if __name__ == '__main__':
@@ -45,12 +59,12 @@ if __name__ == '__main__':
 
     source = Database(sheet_id, 'token.json', scope)
 
-    data = ['13', 'ennis', '10/13/1234', 'IN']
+    data = ['13', 'ennis', str(date.today()), 'IN']
 
     response = source.append(data)
     print(response)
 
     print('\n\n')
 
-    response = source.read_all()
+    response = source.read_all()[1:]
     print(response)
