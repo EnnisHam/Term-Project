@@ -1,0 +1,56 @@
+CheckIn Resource Class
+    Methods:
+        post
+            recieves a post request from the flask framework. The json body should look
+            like
+                {
+                    "id": <number>,
+                    "name": <string>" % to be deprecated
+                }
+
+            The response is in the form of
+                {
+                    "status": 'success',
+                    "data": the data that was inserted
+                }
+
+            The method will call the database's append method and insert the rows
+            neatly into the spreadsheet.
+
+
+CheckOut Resource Class
+    Methods:
+        post
+            recieves a post request from the flask framework. The json body should look
+            like
+                {
+                    "id": <number>,
+                    "name": <string>" % to be deprecated
+                }
+
+            The response is in the form of
+                {
+                    "status": 'success',
+                    "data": the data that was inserted
+                }
+
+            The method will call the database's append method and insert the rows
+            neatly into the spreadsheet.
+
+Search Resource Class
+    Methods:
+        get [search_field: string]
+            runs a search using the /<search_field> extention slug to filter
+            data down to a specific string.
+
+            The response is in the form of
+                {
+                    "data": The filtered down data from the spreadsheet,
+                    "length": How many rows are present in the data
+                }
+
+
+main:
+    Scopes are definied and a database singleton variable is populated using the
+    path to the json token for authentication and list of scopes defined earlier.
+    After the database is correctly created the Application runs.

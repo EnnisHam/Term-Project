@@ -1,0 +1,37 @@
+Database Class:
+    Methods:
+        constructor [sheet_id: string, file_path: string, scope: Array of strings]
+            Initializes a Database object with an _id field and a _service field.
+                _id: the name of the spreadsheet hosted on google's documents service
+                _service: a sheet instance object to make requests to.
+
+
+        authenticate [token: string, scope: Array of strings]
+            verifies the system's credentials with the google API with a
+            pregenerated token and a list of scopes.
+                token: file path to the google generated API token json.
+                scope: a list of permissions that allows the system to interact with
+                       the google API.
+
+            returns a sheet instance object created from the authentication method
+                    from gspread
+
+
+        append [values: Array of strings]
+            runs an insert row method with the list of strings and a row insert of 2
+            to post it below the Schema in the spreadsheet.
+
+
+        read_all
+            grabs all data and removes any empty rows from the get_all_values method
+            in the gspread object.
+
+            returns a list of list of strings containing the data from the spreadsheet
+
+
+        search [field: string]
+            grabs all data from the database spreadsheet and filters it down by the
+            field requested in the parameter.
+                field: an employee name, id, date, or status.
+
+            returns a list of list of strings containing the data from the spreadsheet
