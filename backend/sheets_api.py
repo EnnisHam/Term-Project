@@ -1,6 +1,7 @@
 # Standard library modules
 from copy import deepcopy
 from datetime import date
+from datetime import datetime
 from os import path as file_path
 from typing import List
 
@@ -59,7 +60,7 @@ if __name__ == '__main__':
 
     source = Database(sheet_id, 'token.json', scope)
 
-    data = ['13', 'ennis', str(date.today()), 'IN']
+    data = ['13', str(datetime.now()), str(date.today()), 'IN']
 
     response = source.append(data)
     print(response)

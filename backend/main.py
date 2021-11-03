@@ -3,6 +3,7 @@ from sheets_api import Database
 
 # Standard library modules
 from datetime import date
+from datetime import datetime
 
 # Third party libraries
 from flask import Flask, request
@@ -22,10 +23,10 @@ class CheckIn(Resource):
         json = request.get_json(force=True)
 
         _id = json['id']
-        _name = json['name']
+        _timestamp = str(datetime.now())
         _date = str(date.today())
 
-        data = [_id, _name, _date, 'IN']
+        data = [_id, _timestamp, _date, 'IN']
 
         database.append(data)
         return {'status': 'success', 'data': data}
@@ -37,10 +38,10 @@ class CheckOut(Resource):
         json = request.get_json(force=True)
 
         _id = json['id']
-        _name = json['name']
+        _timestamp = str(datetime.now())
         _date = str(date.today())
 
-        data = [_id, _name, _date, 'OUT']
+        data = [_id, _timestamp, _date, 'OUT']
 
         database.append(data)
         return {'status': 'success', 'data': data}
